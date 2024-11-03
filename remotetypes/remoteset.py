@@ -38,6 +38,10 @@ class RemoteSet(rt.RSet):
 
     def iter(self, current: Optional[Ice.Current] = None) -> rt.IterablePrx:
         """Create an iterable object."""
+        iterable = rt.Iterable(list(self._storage_), self.hash())
+        proxy = current.adapter.addWithUUID(iterable)
+        return rt.IterablePrx.uncheckedCast(proxy)
+
 
     def add(self, item: str, current: Optional[Ice.Current] = None) -> None:
         """Add a new string to the StringSet."""
