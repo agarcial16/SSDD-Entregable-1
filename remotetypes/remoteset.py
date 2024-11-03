@@ -38,7 +38,7 @@ class RemoteSet(rt.RSet):
 
     def iter(self, current: Optional[Ice.Current] = None) -> rt.IterablePrx:
         """Create an iterable object."""
-        iterable = rt.Iterable(list(self._storage_), self.hash())
+        iterable = rt.Iterable(list(self._storage_), self.hash(), self._storage_)
         proxy = current.adapter.addWithUUID(iterable)
         return rt.IterablePrx.uncheckedCast(proxy)
 

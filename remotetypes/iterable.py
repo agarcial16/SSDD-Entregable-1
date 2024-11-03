@@ -12,16 +12,19 @@ import RemoteTypes as rt  # noqa: F401; pylint: disable=import-error
 class Iterable(rt.Iterable):
     """Skeleton for an Iterable implementation."""
 
-    def __init__(self, items: list[str], hash: int) -> None:
+    def __init__(self, items: list[str], hash: int, remote_set) -> None:
         """Initialise the Iterable object."""
         self._buffer = items
         self._index = 0
         self._hash = hash
+        self._remote_set = remote_set
 
-    def next(self, current: Optional[rt.Current] = None) -> str:
+    def next(self) -> str:
         """Return the next element in the buffer."""
-        if hash(self._buffer) != self._hash:
-            raise rt.CancelIteration("The buffer has been modified.")
+        remoteset_hash = self._remote_set.hash()
+
+        if remoteset_hash != self._hash:
+            raise rt.CancelIteration()
 
         if self._index >= len(self._buffer):
             raise rt.StopIteration()

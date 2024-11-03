@@ -18,6 +18,10 @@ class StringSet(set):
         StringSet(iterable) -> new StringSet object
         """
         self.upper_case = force_upper_case
+        for tuple in args:
+            for item in tuple:
+                if not isinstance(item, str):
+                    raise ValueError(item)
         super().__init__(*args, **kwargs)
 
     def add(self, item: str) -> None:
